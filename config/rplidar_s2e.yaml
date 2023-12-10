@@ -1,0 +1,10 @@
+rplidar_node:
+    ros__parameters:
+        channel_type: udp
+        udp_ip: 172.17.1.23
+        udp_port: 8089
+        frame_id: laser
+        inverted: true
+        read_fast: false
+        angle_compensate: true
+        scan_mode: Standard
