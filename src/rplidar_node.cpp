@@ -77,7 +77,7 @@ class RPlidarNode : public rclcpp::Node
         this->declare_parameter<bool>("angle_compensate", false);
         this->declare_parameter<bool>("flip_x_axis", false);
         this->declare_parameter<bool>("auto_standby", false);
-        this->declare_parameter<std::string>("topic_name",std::string("rplidar_scan"));
+        this->declare_parameter<std::string>("topic_name",std::string("rplidar/scan"));
         this->declare_parameter<std::string>("scan_mode",std::string());
         this->declare_parameter<float>("scan_frequency",10);
         
@@ -93,7 +93,7 @@ class RPlidarNode : public rclcpp::Node
         this->get_parameter_or<bool>("angle_compensate", angle_compensate, false);
         this->get_parameter_or<bool>("flip_x_axis", flip_x_axis, false);
         this->get_parameter_or<bool>("auto_standby", auto_standby, false);
-        this->get_parameter_or<std::string>("topic_name", topic_name, "rplidar_scan");
+        this->get_parameter_or<std::string>("topic_name", topic_name, "rplidar/scan");
         this->get_parameter_or<std::string>("scan_mode", scan_mode, std::string());
         if(channel_type == "udp")
             this->get_parameter_or<float>("scan_frequency", scan_frequency, 20.0);
