@@ -33,6 +33,7 @@
 #include <rclcpp/clock.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/time.hpp>
+#include <rclcpp/duration.hpp>
 #include <rclcpp/time_source.hpp>
 
 #include <sensor_msgs/msg/laser_scan.hpp>
@@ -123,7 +124,7 @@ private:
   Timer m_timer;
   /* Scan Times */
   size_t m_scan_count = 0;
-  double max_distance = 8.0f;
+  double max_distance = 3.0f;
   double angle_min = deg_2_rad(0);
   double angle_max = deg_2_rad(359);
   const float min_distance = 0.15f;

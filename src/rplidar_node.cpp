@@ -37,7 +37,6 @@
 #include <std_srvs/srv/empty.hpp>
 #include "sl_lidar.h"
 #include "math.h"
-
 #include <signal.h>
 
 #ifndef _countof
@@ -72,7 +71,7 @@ class RPlidarNode : public rclcpp::Node
         this->declare_parameter<int>("udp_port",8089);
         this->declare_parameter<std::string>("serial_port", "/dev/ttyUSB0");
         this->declare_parameter<int>("serial_baudrate",1000000);
-        this->declare_parameter<std::string>("frame_id","laser_frame");
+        this->declare_parameter<std::string>("frame_id","laser");
         this->declare_parameter<bool>("inverted", false);
         this->declare_parameter<bool>("angle_compensate", false);
         this->declare_parameter<bool>("flip_x_axis", false);
@@ -88,7 +87,7 @@ class RPlidarNode : public rclcpp::Node
         this->get_parameter_or<int>("udp_port", udp_port, 8089);
         this->get_parameter_or<std::string>("serial_port", serial_port, "/dev/ttyUSB0"); 
         this->get_parameter_or<int>("serial_baudrate", serial_baudrate, 1000000/*256000*/);//ros run for A1 A2, change to 256000 if A3
-        this->get_parameter_or<std::string>("frame_id", frame_id, "laser_frame");
+        this->get_parameter_or<std::string>("frame_id", frame_id, "laser");
         this->get_parameter_or<bool>("inverted", inverted, false);
         this->get_parameter_or<bool>("angle_compensate", angle_compensate, false);
         this->get_parameter_or<bool>("flip_x_axis", flip_x_axis, false);
@@ -96,8 +95,8 @@ class RPlidarNode : public rclcpp::Node
         this->get_parameter_or<std::string>("topic_name", topic_name, "rplidar/scan");
         this->get_parameter_or<std::string>("scan_mode", scan_mode, std::string());
         if(channel_type == "udp")
-            this->get_parameter_or<float>("scan_frequency", scan_frequency, 20.0);
-        else
+            this->get_parameter_or<float>("scan_frequency", scan_frequency, 10.0);
+	else
             this->get_parameter_or<float>("scan_frequency", scan_frequency, 10.0);
     }
 
@@ -249,7 +248,7 @@ class RPlidarNode : public rclcpp::Node
         scan_msg->scan_time = scan_time;
         scan_msg->time_increment = scan_time / (double)(node_count-1);
         scan_msg->range_min = 0.15;
-        scan_msg->range_max = max_distance;//8.0;
+        scan_msg->range_max = max_distance;
 
         scan_msg->intensities.resize(node_count);
         scan_msg->ranges.resize(node_count);
@@ -448,7 +447,9 @@ public:
             start_scan_time = this->now();
             op_result = drv->grabScanDataHq(nodes, count);
             end_scan_time = this->now();
+            // start_scan_time +=  rclcpp::Duration::from_seconds(0.5); // transform_tolerance 
             scan_duration = (end_scan_time - start_scan_time).seconds();
+            // end_scan_time +=  ;
 
             if (op_result == SL_RESULT_OK) {
                 op_result = drv->ascendScanData(nodes, count);
@@ -478,7 +479,7 @@ public:
                         }
     
                         publish_scan(scan_pub, angle_compensate_nodes, angle_compensate_nodes_count,
-                                start_scan_time, scan_duration, inverted, flip_x_axis,
+                                end_scan_time, scan_duration, inverted, flip_x_axis,
                                 angle_min, angle_max, max_distance,
                                 frame_id);
 
@@ -500,7 +501,7 @@ public:
                         angle_max = DEG2RAD(getAngle(nodes[end_node]));
 
                         publish_scan(scan_pub, &nodes[start_node], end_node-start_node +1,
-                                start_scan_time, scan_duration, inverted, flip_x_axis, 
+                                end_scan_time, scan_duration, inverted, flip_x_axis, 
                                 angle_min, angle_max, max_distance,
                                 frame_id);
                     }
@@ -509,7 +510,7 @@ public:
                     float angle_min = DEG2RAD(0.0f);
                     float angle_max = DEG2RAD(359.0f);
                     publish_scan(scan_pub, nodes, count,
-                                start_scan_time, scan_duration, inverted, flip_x_axis,
+                                end_scan_time, scan_duration, inverted, flip_x_axis,
                                 angle_min, angle_max, max_distance,
                                 frame_id);
                 }
@@ -544,7 +545,7 @@ public:
     bool angle_compensate = true;
     bool flip_x_axis = false;
     bool auto_standby = false;
-    float max_distance = 8.0;
+    float max_distance;
     size_t angle_compensate_multiple = 1;//it stand of angle compensate at per 1 degree
     std::string scan_mode;
     float scan_frequency;

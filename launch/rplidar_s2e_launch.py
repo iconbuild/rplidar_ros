@@ -18,6 +18,7 @@ def generate_launch_description():
     inverted = LaunchConfiguration('inverted', default='false')
     angle_compensate = LaunchConfiguration('angle_compensate', default='true')
     scan_mode = LaunchConfiguration('scan_mode', default='Standard')
+    max_distance = LaunchConfiguration('max_distance', default='2.5')
 
     return LaunchDescription([
 
@@ -66,7 +67,8 @@ def generate_launch_description():
                          'frame_id': frame_id,
                          'inverted': inverted,
                          'angle_compensate': angle_compensate,
-                         'scan_mode': scan_mode}],
+                         'scan_mode': scan_mode,
+                         'max_distance':max_distance}],
             output='screen'),
     ])
 

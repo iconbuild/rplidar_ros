@@ -642,7 +642,7 @@ namespace sl {
 
                 if (!ans) return SL_RESULT_INVALID_DATA;
                 outUsedScanMode.us_per_sample = sampleRateTmp.std_sample_duration_us;
-                outUsedScanMode.max_distance = 16;
+                outUsedScanMode.max_distance = 2.5;
                 outUsedScanMode.ans_type = SL_LIDAR_ANS_TYPE_MEASUREMENT;
                 strcpy(outUsedScanMode.scan_mode, "Standard");
             }
@@ -721,7 +721,7 @@ namespace sl {
                     if (!ans) return RESULT_INVALID_DATA;
 
                     outUsedScanMode->us_per_sample = sampleRateTmp.express_sample_duration_us;
-                    outUsedScanMode->max_distance = 16;
+                    outUsedScanMode->max_distance = 2.5;
                     outUsedScanMode->ans_type = SL_LIDAR_ANS_TYPE_MEASUREMENT_CAPSULED;
                     strcpy(outUsedScanMode->scan_mode, "Express");
                 }

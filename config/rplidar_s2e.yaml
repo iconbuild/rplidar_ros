@@ -5,6 +5,7 @@ rplidar_node:
         udp_port: 8089
         frame_id: laser
         inverted: true
-        read_fast: false
-        angle_compensate: true
+        angle_compensate: false
         scan_mode: Standard
+        scan_frequency: 10.0
+        max_distance: 2.5
