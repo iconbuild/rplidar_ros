@@ -479,7 +479,7 @@ public:
                         }
     
                         publish_scan(scan_pub, angle_compensate_nodes, angle_compensate_nodes_count,
-                                end_scan_time, scan_duration, inverted, flip_x_axis,
+                                start_scan_time, scan_duration, inverted, flip_x_axis,
                                 angle_min, angle_max, max_distance,
                                 frame_id);
 
@@ -501,7 +501,7 @@ public:
                         angle_max = DEG2RAD(getAngle(nodes[end_node]));
 
                         publish_scan(scan_pub, &nodes[start_node], end_node-start_node +1,
-                                end_scan_time, scan_duration, inverted, flip_x_axis, 
+                                start_scan_time, scan_duration, inverted, flip_x_axis, 
                                 angle_min, angle_max, max_distance,
                                 frame_id);
                     }
@@ -510,7 +510,7 @@ public:
                     float angle_min = DEG2RAD(0.0f);
                     float angle_max = DEG2RAD(359.0f);
                     publish_scan(scan_pub, nodes, count,
-                                end_scan_time, scan_duration, inverted, flip_x_axis,
+                                start_scan_time, scan_duration, inverted, flip_x_axis,
                                 angle_min, angle_max, max_distance,
                                 frame_id);
                 }
