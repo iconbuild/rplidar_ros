@@ -555,6 +555,9 @@ public:
     ILidarDriver *drv = nullptr;
 };
 
+#include "rclcpp_components/register_node_macro.hpp"
+RCLCPP_COMPONENTS_REGISTER_NODE(RPlidarNode)
+
 void ExitHandler(int sig)
 {
     (void)sig;
