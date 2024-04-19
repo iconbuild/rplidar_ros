@@ -83,9 +83,15 @@ install(DIRECTORY config launch rviz
   DESTINATION share/${PROJECT_NAME}
 )
 
-install(
-  TARGETS rplidar_node rplidar_composition rplidar_client
+install(TARGETS rplidar_node rplidar_client
   RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  TARGETS rplidar_composition 
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
 )
 
 ################################################################################
